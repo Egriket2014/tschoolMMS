@@ -16,7 +16,7 @@ public class Matrix {
     private Long id;
 
     @Column(name = "matrix")
-    private String resolution;
+    private String matrix;
 
     @OneToMany(mappedBy = "matrix", cascade = CascadeType.ALL)
     private List<Product> productList;

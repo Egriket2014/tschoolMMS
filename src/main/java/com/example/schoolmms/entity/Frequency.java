@@ -16,7 +16,7 @@ public class Frequency {
     private Long id;
 
     @Column(name = "frequency_name")
-    private Integer resolution;
+    private Integer frequency;
 
     @OneToMany(mappedBy = "frequency", cascade = CascadeType.ALL)
     private List<Product> productList;
