@@ -24,7 +24,10 @@ public class UserRepositoryImpl implements UserRepository {
         CriteriaBuilder criteriaBuilder = entityManager.getCriteriaBuilder();
         CriteriaQuery<User> criteriaQuery = criteriaBuilder.createQuery(User.class);
         Root<User> userRoot = criteriaQuery.from(User.class);
-        criteriaQuery.select(userRoot);
+
+        criteriaQuery
+                .select(userRoot);
+
         TypedQuery<User> typedQuery = entityManager.createQuery(criteriaQuery);
         return typedQuery.getResultList();
     }
@@ -32,6 +35,20 @@ public class UserRepositoryImpl implements UserRepository {
     @Override
     public User findById(long id) {
         return entityManager.find(User.class, id);
+    }
+
+    @Override
+    public User findByEmail(String email) {
+        CriteriaBuilder criteriaBuilder = entityManager.getCriteriaBuilder();
+        CriteriaQuery<User> criteriaQuery = criteriaBuilder.createQuery(User.class);
+        Root<User> userRoot = criteriaQuery.from(User.class);
+
+        criteriaQuery
+                .select(userRoot)
+                .where(criteriaBuilder.equal(userRoot.get("email"), email));
+
+        TypedQuery<User> typedQuery = entityManager.createQuery(criteriaQuery);
+        return typedQuery.getResultStream().findFirst().orElse(null);
     }
 
     @Override

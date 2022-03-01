@@ -24,7 +24,10 @@ public class OrderRepositoryImpl implements OrderRepository {
         CriteriaBuilder criteriaBuilder = entityManager.getCriteriaBuilder();
         CriteriaQuery<Order> criteriaQuery = criteriaBuilder.createQuery(Order.class);
         Root<Order> orderRoot = criteriaQuery.from(Order.class);
-        criteriaQuery.select(orderRoot);
+
+        criteriaQuery
+                .select(orderRoot);
+
         TypedQuery<Order> typedQuery = entityManager.createQuery(criteriaQuery);
         return typedQuery.getResultList();
     }
@@ -44,5 +47,19 @@ public class OrderRepositoryImpl implements OrderRepository {
     @Transactional
     public void update(Order order) {
         entityManager.merge(order);
+    }
+
+    @Override
+    public List<Order> findByUserId(long user_id) {
+        CriteriaBuilder criteriaBuilder = entityManager.getCriteriaBuilder();
+        CriteriaQuery<Order> criteriaQuery = criteriaBuilder.createQuery(Order.class);
+        Root<Order> orderRoot = criteriaQuery.from(Order.class);
+
+        criteriaQuery
+                .select(orderRoot)
+                .where(criteriaBuilder.equal(orderRoot.get("user").get("id"), user_id));
+
+        TypedQuery<Order> typedQuery = entityManager.createQuery(criteriaQuery);
+        return typedQuery.getResultList();
     }
 }

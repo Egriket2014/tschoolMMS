@@ -22,6 +22,9 @@ public class Product {
     @GeneratedValue(strategy = GenerationType.IDENTITY)
     private Long id;
 
+    @Column(name = "is_active")
+    private Boolean active;
+
     @Column(name = "title")
     private String productTitle;
 

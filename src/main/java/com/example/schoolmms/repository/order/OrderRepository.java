@@ -9,4 +9,5 @@ public interface OrderRepository {
     Order findById(long id);
     void save(Order order);
     void update(Order order);
+    List<Order> findByUserId(long user_id);
 }

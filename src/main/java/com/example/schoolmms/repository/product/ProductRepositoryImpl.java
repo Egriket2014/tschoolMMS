@@ -1,6 +1,8 @@
 package com.example.schoolmms.repository.product;
 
 import com.example.schoolmms.entity.Product;
+import com.example.schoolmms.repository.product.searchCriteria.ProductSearchQueryCriteriaConsumer;
+import com.example.schoolmms.repository.product.searchCriteria.SearchCriteria;
 import org.springframework.stereotype.Repository;
 import org.springframework.transaction.annotation.Transactional;
 
@@ -9,6 +11,7 @@ import javax.persistence.PersistenceContext;
 import javax.persistence.TypedQuery;
 import javax.persistence.criteria.CriteriaBuilder;
 import javax.persistence.criteria.CriteriaQuery;
+import javax.persistence.criteria.Predicate;
 import javax.persistence.criteria.Root;
 import java.util.List;
 
@@ -24,10 +27,28 @@ public class ProductRepositoryImpl implements ProductRepository {
         CriteriaBuilder criteriaBuilder = entityManager.getCriteriaBuilder();
         CriteriaQuery<Product> criteriaQuery = criteriaBuilder.createQuery(Product.class);
         Root<Product> productRoot = criteriaQuery.from(Product.class);
-        criteriaQuery.select(productRoot);
+
+        criteriaQuery
+                .select(productRoot);
+
         TypedQuery<Product> typedQuery = entityManager.createQuery(criteriaQuery);
         return typedQuery.getResultList();
     }
+
+    @Override
+    public List<Product> findAllActive() {
+        CriteriaBuilder criteriaBuilder = entityManager.getCriteriaBuilder();
+        CriteriaQuery<Product> criteriaQuery = criteriaBuilder.createQuery(Product.class);
+        Root<Product> productRoot = criteriaQuery.from(Product.class);
+
+        criteriaQuery
+                .select(productRoot)
+                .where(criteriaBuilder.equal(productRoot.get("active"), true));
+
+        TypedQuery<Product> typedQuery = entityManager.createQuery(criteriaQuery);
+        return typedQuery.getResultList();
+    }
+
 
     @Override
     public Product findById(long id) {
@@ -35,17 +56,23 @@ public class ProductRepositoryImpl implements ProductRepository {
     }
 
     @Override
-    public Product findByName(String productTitle) {
+    public List<Product> findByParam(List<SearchCriteria> params) {
         CriteriaBuilder criteriaBuilder = entityManager.getCriteriaBuilder();
         CriteriaQuery<Product> criteriaQuery = criteriaBuilder.createQuery(Product.class);
         Root<Product> productRoot = criteriaQuery.from(Product.class);
 
-        criteriaQuery
-                .select(productRoot)
-                .where(criteriaBuilder.equal(productRoot.get("productTitle"), productTitle));
+        Predicate predicate = criteriaBuilder.conjunction();
+        ProductSearchQueryCriteriaConsumer productConsumer =
+                new ProductSearchQueryCriteriaConsumer(predicate, criteriaBuilder, productRoot);
+        params.stream().forEach(productConsumer);
+        predicate = productConsumer.getPredicate();
 
-        TypedQuery<Product> typedQuery = entityManager.createQuery(criteriaQuery);
-        return typedQuery.getSingleResult();
+        criteriaQuery
+                .where(criteriaBuilder.equal(productRoot.get("active"), true),
+                        predicate);
+
+        List<Product> result = entityManager.createQuery(criteriaQuery).getResultList();
+        return result;
     }
 
     @Override

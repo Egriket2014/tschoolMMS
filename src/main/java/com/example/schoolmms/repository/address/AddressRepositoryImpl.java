@@ -24,7 +24,10 @@ public class AddressRepositoryImpl implements AddressRepository {
         CriteriaBuilder criteriaBuilder = entityManager.getCriteriaBuilder();
         CriteriaQuery<Address> criteriaQuery = criteriaBuilder.createQuery(Address.class);
         Root<Address> addressRoot = criteriaQuery.from(Address.class);
-        criteriaQuery.select(addressRoot);
+
+        criteriaQuery
+                .select(addressRoot);
+
         TypedQuery<Address> typedQuery = entityManager.createQuery(criteriaQuery);
         return typedQuery.getResultList();
     }
@@ -38,5 +41,24 @@ public class AddressRepositoryImpl implements AddressRepository {
     @Transactional
     public void save(Address address) {
         entityManager.persist(address);
+    }
+
+    @Override
+    public void update(Address address) {
+        entityManager.merge(address);
+    }
+
+    @Override
+    public List<Address> findByUserId(long user_id) {
+        CriteriaBuilder criteriaBuilder = entityManager.getCriteriaBuilder();
+        CriteriaQuery<Address> criteriaQuery = criteriaBuilder.createQuery(Address.class);
+        Root<Address> addressRoot = criteriaQuery.from(Address.class);
+
+        criteriaQuery
+                .select(addressRoot)
+                .where(criteriaBuilder.equal(addressRoot.get("user").get("id"), user_id));
+
+        TypedQuery<Address> typedQuery = entityManager.createQuery(criteriaQuery);
+        return typedQuery.getResultList();
     }
 }
