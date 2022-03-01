@@ -3,6 +3,7 @@ package com.example.schoolmms.entity;
 import lombok.Data;
 
 import javax.persistence.*;
+import java.util.List;
 
 @Entity
 @Table(name = "addresses")
@@ -31,4 +32,8 @@ public class Address {
 
     @Column(name = "apartment")
     private Integer apartmentNumber;
+
+    @ManyToOne(fetch = FetchType.EAGER, optional = false)
+    @JoinColumn(name = "client_id")
+    private Client client;
 }

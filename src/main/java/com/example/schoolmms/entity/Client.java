@@ -4,6 +4,7 @@ import lombok.Data;
 
 import javax.persistence.*;
 import java.util.Date;
+import java.util.List;
 
 @Entity
 @Table(name = "clients")
@@ -29,4 +30,10 @@ public class Client {
 
     @Column(name = "password")
     private String password; // cript encoder
+
+    @OneToMany(mappedBy = "client", cascade = CascadeType.ALL)
+    private List<Address> addressList;
+
+    @OneToMany(mappedBy = "client", cascade = CascadeType.ALL)
+    private List<Order> orderList;
 }

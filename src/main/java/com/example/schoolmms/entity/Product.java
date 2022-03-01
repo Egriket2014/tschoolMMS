@@ -22,14 +22,29 @@ public class Product {
     @Column(name = "price")
     private Double price;
 
-    @Column(name = "category")
-    private String productCategory; // Replace to enum later
+    @ManyToOne(fetch = FetchType.EAGER, optional = false)
+    @JoinColumn(name = "category_id")
+    private Category category;
 
-    @Column(name = "weight")
-    private Double productWeight;
+    @ManyToOne(fetch = FetchType.EAGER, optional = false)
+    @JoinColumn(name = "brand_id")
+    private Brand brand;
 
-    @Column(name = "volume")
-    private Double productVolume; // maybe delete
+    @ManyToOne(fetch = FetchType.EAGER, optional = false)
+    @JoinColumn(name = "resolution_id")
+    private Resolution resolution;
+
+    @ManyToOne(fetch = FetchType.EAGER, optional = false)
+    @JoinColumn(name = "diagonal_id")
+    private Diagonal diagonal;
+
+    @ManyToOne(fetch = FetchType.EAGER, optional = false)
+    @JoinColumn(name = "matrix_id")
+    private Matrix matrix;
+
+    @ManyToOne(fetch = FetchType.EAGER, optional = false)
+    @JoinColumn(name = "frequency_id")
+    private Frequency frequency;
 
     @Column(name = "amount")
     private Integer amount;

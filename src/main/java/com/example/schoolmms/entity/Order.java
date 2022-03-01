@@ -1,5 +1,9 @@
 package com.example.schoolmms.entity;
 
+import com.example.schoolmms.entity.enums.DeliveryMethod;
+import com.example.schoolmms.entity.enums.OrderStatus;
+import com.example.schoolmms.entity.enums.PaymentMethod;
+import com.example.schoolmms.entity.enums.PaymentStatus;
 import lombok.Data;
 
 import javax.persistence.*;
@@ -15,7 +19,7 @@ public class Order {
     @GeneratedValue(strategy = GenerationType.IDENTITY)
     private Long id;
 
-    @OneToOne(cascade = CascadeType.ALL, fetch = FetchType.EAGER)
+    @ManyToOne(fetch = FetchType.EAGER, optional = false)
     @JoinColumn(name = "client_id")
     private Client client;
 
@@ -24,10 +28,10 @@ public class Order {
     private Address address;
 
     @Column(name = "payment_method")
-    private Boolean paymentMethod; // Replace to enum later
+    private PaymentMethod paymentMethod;
 
     @Column(name = "delivery_method")
-    private Boolean deliveryMethod; // Replace to enum later
+    private DeliveryMethod deliveryMethod;
 
     @ManyToMany(cascade = CascadeType.ALL, fetch = FetchType.EAGER)
     @JoinTable(name = "order_product",
@@ -36,8 +40,8 @@ public class Order {
     private List<Product> products;
 
     @Column(name = "payment_status")
-    private Boolean paymentStatus; // Replace to enum later
+    private PaymentStatus paymentStatus;
 
     @Column(name = "order_status")
-    private Boolean orderStatus; // Replace to enum later
+    private OrderStatus orderStatus;
 }
