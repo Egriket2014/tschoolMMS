@@ -45,7 +45,7 @@ public class ResolutionRepositoryImpl implements IRepository<Resolution, Long> {
 
     @Override
     public Optional<Resolution> findById(Long id) {
-        return Optional.of(entityManager.find(Resolution.class, id));
+        return Optional.ofNullable(entityManager.find(Resolution.class, id));
     }
 
     public Optional<Resolution> findByName(String resolution) {
@@ -57,7 +57,7 @@ public class ResolutionRepositoryImpl implements IRepository<Resolution, Long> {
                 .where(criteriaBuilder.equal(resolutionRoot.get("resolution"), resolution));
 
         TypedQuery<Resolution> typedQuery = entityManager.createQuery(criteriaQuery);
-        return Optional.of(typedQuery.getSingleResult());
+        return Optional.ofNullable(typedQuery.getSingleResult());
     }
 
     @Override

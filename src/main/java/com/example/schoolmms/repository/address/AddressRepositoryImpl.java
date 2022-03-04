@@ -45,7 +45,7 @@ public class AddressRepositoryImpl implements IRepository<Address, Long> {
 
     @Override
     public Optional<Address> findById(Long id) {
-        return Optional.of(entityManager.find(Address.class, id));
+        return Optional.ofNullable(entityManager.find(Address.class, id));
     }
 
     @Override

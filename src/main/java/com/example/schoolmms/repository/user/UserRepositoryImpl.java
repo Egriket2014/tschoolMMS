@@ -45,7 +45,7 @@ public class UserRepositoryImpl implements IRepository<User, Long> {
 
     @Override
     public Optional<User> findById(Long id) {
-        return Optional.of(entityManager.find(User.class, id));
+        return Optional.ofNullable(entityManager.find(User.class, id));
     }
 
     @Override

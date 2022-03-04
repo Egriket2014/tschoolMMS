@@ -45,7 +45,7 @@ public class BrandRepositoryImpl implements IRepository<Brand, Long> {
 
     @Override
     public Optional<Brand> findById(Long id) {
-        return Optional.of(entityManager.find(Brand.class, id));
+        return Optional.ofNullable(entityManager.find(Brand.class, id));
     }
 
     public Optional<Brand> findByName(String brandName) {
@@ -57,7 +57,7 @@ public class BrandRepositoryImpl implements IRepository<Brand, Long> {
                 .where(criteriaBuilder.equal(brandRoot.get("brandName"), brandName));
 
         TypedQuery<Brand> typedQuery = entityManager.createQuery(criteriaQuery);
-        return Optional.of(typedQuery.getSingleResult());
+        return Optional.ofNullable(typedQuery.getSingleResult());
     }
 
     @Override

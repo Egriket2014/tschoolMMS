@@ -29,7 +29,7 @@ public class RoleRepositoryImpl implements IRepository<Role, Long> {
                 .where(criteriaBuilder.equal(roleRoot.get("name"), name));
 
         TypedQuery<Role> typedQuery = entityManager.createQuery(criteriaQuery);
-        return Optional.of(typedQuery.getSingleResult());
+        return Optional.ofNullable(typedQuery.getSingleResult());
     }
 
     @Override
@@ -57,7 +57,7 @@ public class RoleRepositoryImpl implements IRepository<Role, Long> {
 
     @Override
     public Optional<Role> findById(Long id) {
-        return Optional.of(entityManager.find(Role.class, id));
+        return Optional.ofNullable(entityManager.find(Role.class, id));
     }
 
     @Override

@@ -48,7 +48,7 @@ public class ProductRepositoryImpl implements IRepository<Product, Long> {
 
     @Override
     public Optional<Product> findById(Long id) {
-        return Optional.of(entityManager.find(Product.class, id));
+        return Optional.ofNullable(entityManager.find(Product.class, id));
     }
 
     public Optional<Product> findByName(String name) {
@@ -60,7 +60,7 @@ public class ProductRepositoryImpl implements IRepository<Product, Long> {
                 .where(criteriaBuilder.equal(productRoot.get("productTitle"), name));
 
         TypedQuery<Product> typedQuery = entityManager.createQuery(criteriaQuery);
-        return Optional.of(typedQuery.getSingleResult());
+        return Optional.ofNullable(typedQuery.getSingleResult());
     }
 
     @Override

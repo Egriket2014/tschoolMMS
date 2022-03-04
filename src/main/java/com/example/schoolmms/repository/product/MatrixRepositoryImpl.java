@@ -45,7 +45,7 @@ public class MatrixRepositoryImpl implements IRepository<Matrix, Long> {
 
     @Override
     public Optional<Matrix> findById(Long id) {
-        return Optional.of(entityManager.find(Matrix.class, id));
+        return Optional.ofNullable(entityManager.find(Matrix.class, id));
     }
 
     public Optional<Matrix> findByName(String matrixName) {
@@ -57,7 +57,7 @@ public class MatrixRepositoryImpl implements IRepository<Matrix, Long> {
                 .where(criteriaBuilder.equal(matrixRoot.get("matrixName"), matrixName));
 
         TypedQuery<Matrix> typedQuery = entityManager.createQuery(criteriaQuery);
-        return Optional.of(typedQuery.getSingleResult());
+        return Optional.ofNullable(typedQuery.getSingleResult());
     }
 
     @Override

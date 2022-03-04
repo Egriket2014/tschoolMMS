@@ -45,7 +45,7 @@ public class DiagonalRepositoryImpl implements IRepository<Diagonal, Long> {
 
     @Override
     public Optional<Diagonal> findById(Long id) {
-        return Optional.of(entityManager.find(Diagonal.class, id));
+        return Optional.ofNullable(entityManager.find(Diagonal.class, id));
     }
 
     public Optional<Diagonal> findByName(String diagonal) {
@@ -57,7 +57,7 @@ public class DiagonalRepositoryImpl implements IRepository<Diagonal, Long> {
                 .where(criteriaBuilder.equal(diagonalRoot.get("diagonal"), Integer.valueOf(diagonal)));
 
         TypedQuery<Diagonal> typedQuery = entityManager.createQuery(criteriaQuery);
-        return Optional.of(typedQuery.getSingleResult());
+        return Optional.ofNullable(typedQuery.getSingleResult());
     }
 
     @Override

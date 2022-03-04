@@ -45,7 +45,7 @@ public class OrderRepositoryImpl implements IRepository<Order, Long> {
 
     @Override
     public Optional<Order> findById(Long id) {
-        return Optional.of(entityManager.find(Order.class, id));
+        return Optional.ofNullable(entityManager.find(Order.class, id));
     }
 
     @Override

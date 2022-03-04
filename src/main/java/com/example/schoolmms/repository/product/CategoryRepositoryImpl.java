@@ -45,7 +45,7 @@ public class CategoryRepositoryImpl implements IRepository<Category, Long> {
 
     @Override
     public Optional<Category> findById(Long id) {
-        return Optional.of(entityManager.find(Category.class, id));
+        return Optional.ofNullable(entityManager.find(Category.class, id));
     }
 
     public Optional<Category> findByName(String categoryName) {
@@ -57,7 +57,7 @@ public class CategoryRepositoryImpl implements IRepository<Category, Long> {
                 .where(criteriaBuilder.equal(categoryRoot.get("categoryName"), categoryName));
 
         TypedQuery<Category> typedQuery = entityManager.createQuery(criteriaQuery);
-        return Optional.of(typedQuery.getSingleResult());
+        return Optional.ofNullable(typedQuery.getSingleResult());
     }
 
     @Override

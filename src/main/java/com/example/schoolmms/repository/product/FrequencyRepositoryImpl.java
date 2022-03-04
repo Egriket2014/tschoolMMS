@@ -45,7 +45,7 @@ public class FrequencyRepositoryImpl implements IRepository<Frequency, Long> {
 
     @Override
     public Optional<Frequency> findById(Long id) {
-        return Optional.of(entityManager.find(Frequency.class, id));
+        return Optional.ofNullable(entityManager.find(Frequency.class, id));
     }
 
     public Optional<Frequency> findByName(String frequency) {
@@ -57,7 +57,7 @@ public class FrequencyRepositoryImpl implements IRepository<Frequency, Long> {
                 .where(criteriaBuilder.equal(frequencyRoot.get("frequency"), Integer.valueOf(frequency)));
 
         TypedQuery<Frequency> typedQuery = entityManager.createQuery(criteriaQuery);
-        return Optional.of(typedQuery.getSingleResult());
+        return Optional.ofNullable(typedQuery.getSingleResult());
     }
 
     @Override
