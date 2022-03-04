@@ -1,4 +1,4 @@
-package com.example.schoolmms.repository.product.searchCriteria;
+package com.example.schoolmms.repository.product.filter;
 
 import lombok.AllArgsConstructor;
 import lombok.Builder;
