@@ -3,7 +3,6 @@ package com.example.schoolmms.repository.product;
 import com.example.schoolmms.entity.Category;
 import com.example.schoolmms.repository.IRepository;
 import org.springframework.stereotype.Repository;
-import org.springframework.transaction.annotation.Transactional;
 
 import javax.persistence.EntityManager;
 import javax.persistence.PersistenceContext;
@@ -15,15 +14,14 @@ import java.util.List;
 import java.util.Optional;
 
 @Repository
-@Transactional(readOnly = true)
 public class CategoryRepositoryImpl implements IRepository<Category, Long> {
 
     @PersistenceContext
     private EntityManager entityManager;
+    private final CriteriaBuilder criteriaBuilder = entityManager.getCriteriaBuilder();
 
     @Override
     public long count() {
-        CriteriaBuilder criteriaBuilder = entityManager.getCriteriaBuilder();
         CriteriaQuery<Long> criteriaQuery = criteriaBuilder.createQuery(Long.class);
 
         criteriaQuery
@@ -35,7 +33,6 @@ public class CategoryRepositoryImpl implements IRepository<Category, Long> {
 
     @Override
     public List<Category> findAll() {
-        CriteriaBuilder criteriaBuilder = entityManager.getCriteriaBuilder();
         CriteriaQuery<Category> criteriaQuery = criteriaBuilder.createQuery(Category.class);
         Root<Category> categoryRoot = criteriaQuery.from(Category.class);
 
@@ -52,7 +49,6 @@ public class CategoryRepositoryImpl implements IRepository<Category, Long> {
     }
 
     public Optional<Category> findByName(String categoryName) {
-        CriteriaBuilder criteriaBuilder = entityManager.getCriteriaBuilder();
         CriteriaQuery<Category> criteriaQuery = criteriaBuilder.createQuery(Category.class);
         Root<Category> categoryRoot = criteriaQuery.from(Category.class);
 
@@ -65,32 +61,27 @@ public class CategoryRepositoryImpl implements IRepository<Category, Long> {
     }
 
     @Override
-    @Transactional
     public void delete(Category entity) {
         entityManager.remove(entity);
     }
 
     @Override
-    @Transactional
     public void deleteById(Long id) {
         Optional<Category> optional = findById(id);
         optional.ifPresent(category -> entityManager.remove(category));
     }
 
     @Override
-    @Transactional
     public void save(Category category) {
         entityManager.persist(category);
     }
 
     @Override
-    @Transactional
     public void saveAll(Iterable<Category> entities) {
         entities.forEach(entityManager::persist);
     }
 
     @Override
-    @Transactional
     public void update(Category category) {
         entityManager.merge(category);
     }

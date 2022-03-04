@@ -3,7 +3,6 @@ package com.example.schoolmms.repository.order;
 import com.example.schoolmms.entity.Order;
 import com.example.schoolmms.repository.IRepository;
 import org.springframework.stereotype.Repository;
-import org.springframework.transaction.annotation.Transactional;
 
 import javax.persistence.EntityManager;
 import javax.persistence.PersistenceContext;
@@ -15,15 +14,14 @@ import java.util.List;
 import java.util.Optional;
 
 @Repository
-@Transactional(readOnly = true)
 public class OrderRepositoryImpl implements IRepository<Order, Long> {
 
     @PersistenceContext
     private EntityManager entityManager;
+    private final CriteriaBuilder criteriaBuilder = entityManager.getCriteriaBuilder();
 
     @Override
     public long count() {
-        CriteriaBuilder criteriaBuilder = entityManager.getCriteriaBuilder();
         CriteriaQuery<Long> criteriaQuery = criteriaBuilder.createQuery(Long.class);
 
         criteriaQuery
@@ -35,7 +33,6 @@ public class OrderRepositoryImpl implements IRepository<Order, Long> {
 
     @Override
     public List<Order> findAll() {
-        CriteriaBuilder criteriaBuilder = entityManager.getCriteriaBuilder();
         CriteriaQuery<Order> criteriaQuery = criteriaBuilder.createQuery(Order.class);
         Root<Order> orderRoot = criteriaQuery.from(Order.class);
 
@@ -52,38 +49,32 @@ public class OrderRepositoryImpl implements IRepository<Order, Long> {
     }
 
     @Override
-    @Transactional
     public void delete(Order entity) {
         entityManager.remove(entity);
     }
 
     @Override
-    @Transactional
     public void deleteById(Long id) {
         Optional<Order> optional = findById(id);
         optional.ifPresent(order -> entityManager.remove(order));
     }
 
     @Override
-    @Transactional
     public void save(Order order) {
         entityManager.persist(order);
     }
 
     @Override
-    @Transactional
     public void saveAll(Iterable<Order> entities) {
         entities.forEach(entityManager::persist);
     }
 
     @Override
-    @Transactional
     public void update(Order order) {
         entityManager.merge(order);
     }
 
     public List<Order> findByUserId(long userId) {
-        CriteriaBuilder criteriaBuilder = entityManager.getCriteriaBuilder();
         CriteriaQuery<Order> criteriaQuery = criteriaBuilder.createQuery(Order.class);
         Root<Order> orderRoot = criteriaQuery.from(Order.class);
 

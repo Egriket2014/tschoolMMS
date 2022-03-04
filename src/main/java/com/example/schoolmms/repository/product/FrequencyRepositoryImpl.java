@@ -3,7 +3,6 @@ package com.example.schoolmms.repository.product;
 import com.example.schoolmms.entity.Frequency;
 import com.example.schoolmms.repository.IRepository;
 import org.springframework.stereotype.Repository;
-import org.springframework.transaction.annotation.Transactional;
 
 import javax.persistence.EntityManager;
 import javax.persistence.PersistenceContext;
@@ -15,15 +14,14 @@ import java.util.List;
 import java.util.Optional;
 
 @Repository
-@Transactional(readOnly = true)
 public class FrequencyRepositoryImpl implements IRepository<Frequency, Long> {
 
     @PersistenceContext
     private EntityManager entityManager;
+    private final CriteriaBuilder criteriaBuilder = entityManager.getCriteriaBuilder();
 
     @Override
     public long count() {
-        CriteriaBuilder criteriaBuilder = entityManager.getCriteriaBuilder();
         CriteriaQuery<Long> criteriaQuery = criteriaBuilder.createQuery(Long.class);
 
         criteriaQuery
@@ -35,7 +33,6 @@ public class FrequencyRepositoryImpl implements IRepository<Frequency, Long> {
 
     @Override
     public List<Frequency> findAll() {
-        CriteriaBuilder criteriaBuilder = entityManager.getCriteriaBuilder();
         CriteriaQuery<Frequency> criteriaQuery = criteriaBuilder.createQuery(Frequency.class);
         Root<Frequency> frequencyRoot = criteriaQuery.from(Frequency.class);
 
@@ -52,7 +49,6 @@ public class FrequencyRepositoryImpl implements IRepository<Frequency, Long> {
     }
 
     public Optional<Frequency> findByName(String frequency) {
-        CriteriaBuilder criteriaBuilder = entityManager.getCriteriaBuilder();
         CriteriaQuery<Frequency> criteriaQuery = criteriaBuilder.createQuery(Frequency.class);
         Root<Frequency> frequencyRoot = criteriaQuery.from(Frequency.class);
 
@@ -65,32 +61,27 @@ public class FrequencyRepositoryImpl implements IRepository<Frequency, Long> {
     }
 
     @Override
-    @Transactional
     public void delete(Frequency entity) {
         entityManager.remove(entity);
     }
 
     @Override
-    @Transactional
     public void deleteById(Long id) {
         Optional<Frequency> optional = findById(id);
         optional.ifPresent(frequency -> entityManager.remove(frequency));
     }
 
     @Override
-    @Transactional
     public void save(Frequency frequency) {
         entityManager.persist(frequency);
     }
 
     @Override
-    @Transactional
     public void saveAll(Iterable<Frequency> entities) {
         entities.forEach(entityManager::persist);
     }
 
     @Override
-    @Transactional
     public void update(Frequency frequency) {
         entityManager.merge(frequency);
     }

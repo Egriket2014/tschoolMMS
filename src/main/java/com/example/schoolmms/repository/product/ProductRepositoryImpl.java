@@ -5,7 +5,6 @@ import com.example.schoolmms.repository.IRepository;
 import com.example.schoolmms.repository.product.filter.ProductSearchQueryCriteriaConsumer;
 import com.example.schoolmms.repository.product.filter.SearchCriteria;
 import org.springframework.stereotype.Repository;
-import org.springframework.transaction.annotation.Transactional;
 
 import javax.persistence.EntityManager;
 import javax.persistence.PersistenceContext;
@@ -18,15 +17,14 @@ import java.util.List;
 import java.util.Optional;
 
 @Repository
-@Transactional(readOnly = true)
 public class ProductRepositoryImpl implements IRepository<Product, Long> {
 
     @PersistenceContext
     private EntityManager entityManager;
+    private final CriteriaBuilder criteriaBuilder = entityManager.getCriteriaBuilder();
 
     @Override
     public long count() {
-        CriteriaBuilder criteriaBuilder = entityManager.getCriteriaBuilder();
         CriteriaQuery<Long> criteriaQuery = criteriaBuilder.createQuery(Long.class);
 
         criteriaQuery
@@ -38,7 +36,6 @@ public class ProductRepositoryImpl implements IRepository<Product, Long> {
 
     @Override
     public List<Product> findAll() {
-        CriteriaBuilder criteriaBuilder = entityManager.getCriteriaBuilder();
         CriteriaQuery<Product> criteriaQuery = criteriaBuilder.createQuery(Product.class);
         Root<Product> productRoot = criteriaQuery.from(Product.class);
 
@@ -55,7 +52,6 @@ public class ProductRepositoryImpl implements IRepository<Product, Long> {
     }
 
     public Optional<Product> findByName(String name) {
-        CriteriaBuilder criteriaBuilder = entityManager.getCriteriaBuilder();
         CriteriaQuery<Product> criteriaQuery = criteriaBuilder.createQuery(Product.class);
         Root<Product> productRoot = criteriaQuery.from(Product.class);
 
@@ -68,20 +64,17 @@ public class ProductRepositoryImpl implements IRepository<Product, Long> {
     }
 
     @Override
-    @Transactional
     public void delete(Product entity) {
         entityManager.remove(entity);
     }
 
     @Override
-    @Transactional
     public void deleteById(Long id) {
         Optional<Product> optional = findById(id);
         optional.ifPresent(product -> entityManager.remove(product));
     }
 
     public List<Product> findAllActive() {
-        CriteriaBuilder criteriaBuilder = entityManager.getCriteriaBuilder();
         CriteriaQuery<Product> criteriaQuery = criteriaBuilder.createQuery(Product.class);
         Root<Product> productRoot = criteriaQuery.from(Product.class);
 
@@ -94,7 +87,6 @@ public class ProductRepositoryImpl implements IRepository<Product, Long> {
     }
 
     public List<Product> findByParam(List<SearchCriteria> params) {
-        CriteriaBuilder criteriaBuilder = entityManager.getCriteriaBuilder();
         CriteriaQuery<Product> criteriaQuery = criteriaBuilder.createQuery(Product.class);
         Root<Product> productRoot = criteriaQuery.from(Product.class);
 
@@ -112,19 +104,16 @@ public class ProductRepositoryImpl implements IRepository<Product, Long> {
     }
 
     @Override
-    @Transactional
     public void save(Product product) {
         entityManager.persist(product);
     }
 
     @Override
-    @Transactional
     public void saveAll(Iterable<Product> entities) {
         entities.forEach(entityManager::persist);
     }
 
     @Override
-    @Transactional
     public void update(Product product) {
         entityManager.merge(product);
     }

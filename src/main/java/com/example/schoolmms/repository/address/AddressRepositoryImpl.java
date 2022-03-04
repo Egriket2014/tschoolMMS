@@ -3,7 +3,6 @@ package com.example.schoolmms.repository.address;
 import com.example.schoolmms.entity.Address;
 import com.example.schoolmms.repository.IRepository;
 import org.springframework.stereotype.Repository;
-import org.springframework.transaction.annotation.Transactional;
 
 import javax.persistence.EntityManager;
 import javax.persistence.PersistenceContext;
@@ -15,15 +14,14 @@ import java.util.List;
 import java.util.Optional;
 
 @Repository
-@Transactional(readOnly = true)
 public class AddressRepositoryImpl implements IRepository<Address, Long> {
 
     @PersistenceContext
     private EntityManager entityManager;
+    private final CriteriaBuilder criteriaBuilder = entityManager.getCriteriaBuilder();
 
     @Override
     public long count() {
-        CriteriaBuilder criteriaBuilder = entityManager.getCriteriaBuilder();
         CriteriaQuery<Long> criteriaQuery = criteriaBuilder.createQuery(Long.class);
 
         criteriaQuery
@@ -35,7 +33,6 @@ public class AddressRepositoryImpl implements IRepository<Address, Long> {
 
     @Override
     public List<Address> findAll() {
-        CriteriaBuilder criteriaBuilder = entityManager.getCriteriaBuilder();
         CriteriaQuery<Address> criteriaQuery = criteriaBuilder.createQuery(Address.class);
         Root<Address> addressRoot = criteriaQuery.from(Address.class);
 
@@ -52,36 +49,30 @@ public class AddressRepositoryImpl implements IRepository<Address, Long> {
     }
 
     @Override
-    @Transactional
     public void delete(Address entity) {
         entityManager.remove(entity);
     }
 
     @Override
-    @Transactional
     public void deleteById(Long id) {
         Optional<Address> optional = findById(id);
         optional.ifPresent(address -> entityManager.remove(address));
     }
 
     @Override
-    @Transactional
     public void save(Address address) {
         entityManager.persist(address);
     }
 
     @Override
-    @Transactional
     public void saveAll(Iterable<Address> entities) {
         entities.forEach(entityManager::persist);
     }
 
     @Override
-    @Transactional
     public void update(Address address) {
         entityManager.merge(address);
     }
-
 
     public List<Address> findByUserId(Long userId) {
         CriteriaBuilder criteriaBuilder = entityManager.getCriteriaBuilder();

@@ -3,7 +3,6 @@ package com.example.schoolmms.repository.product;
 import com.example.schoolmms.entity.Diagonal;
 import com.example.schoolmms.repository.IRepository;
 import org.springframework.stereotype.Repository;
-import org.springframework.transaction.annotation.Transactional;
 
 import javax.persistence.EntityManager;
 import javax.persistence.PersistenceContext;
@@ -15,15 +14,14 @@ import java.util.List;
 import java.util.Optional;
 
 @Repository
-@Transactional(readOnly = true)
 public class DiagonalRepositoryImpl implements IRepository<Diagonal, Long> {
 
     @PersistenceContext
     private EntityManager entityManager;
+    private final CriteriaBuilder criteriaBuilder = entityManager.getCriteriaBuilder();
 
     @Override
     public long count() {
-        CriteriaBuilder criteriaBuilder = entityManager.getCriteriaBuilder();
         CriteriaQuery<Long> criteriaQuery = criteriaBuilder.createQuery(Long.class);
 
         criteriaQuery
@@ -35,7 +33,6 @@ public class DiagonalRepositoryImpl implements IRepository<Diagonal, Long> {
 
     @Override
     public List<Diagonal> findAll() {
-        CriteriaBuilder criteriaBuilder = entityManager.getCriteriaBuilder();
         CriteriaQuery<Diagonal> criteriaQuery = criteriaBuilder.createQuery(Diagonal.class);
         Root<Diagonal> diagonalRoot = criteriaQuery.from(Diagonal.class);
 
@@ -52,7 +49,6 @@ public class DiagonalRepositoryImpl implements IRepository<Diagonal, Long> {
     }
 
     public Optional<Diagonal> findByName(String diagonal) {
-        CriteriaBuilder criteriaBuilder = entityManager.getCriteriaBuilder();
         CriteriaQuery<Diagonal> criteriaQuery = criteriaBuilder.createQuery(Diagonal.class);
         Root<Diagonal> diagonalRoot = criteriaQuery.from(Diagonal.class);
 
@@ -65,32 +61,27 @@ public class DiagonalRepositoryImpl implements IRepository<Diagonal, Long> {
     }
 
     @Override
-    @Transactional
     public void delete(Diagonal entity) {
         entityManager.remove(entity);
     }
 
     @Override
-    @Transactional
     public void deleteById(Long id) {
         Optional<Diagonal> optional = findById(id);
         optional.ifPresent(brand -> entityManager.remove(brand));
     }
 
     @Override
-    @Transactional
     public void save(Diagonal diagonal) {
         entityManager.persist(diagonal);
     }
 
     @Override
-    @Transactional
     public void saveAll(Iterable<Diagonal> entities) {
         entities.forEach(entityManager::persist);
     }
 
     @Override
-    @Transactional
     public void update(Diagonal diagonal) {
         entityManager.merge(diagonal);
     }
