@@ -70,8 +70,7 @@ public class ProductRepositoryImpl implements IRepository<Product, Long> {
 
     @Override
     public void deleteById(Long id) {
-        Optional<Product> optional = findById(id);
-        optional.ifPresent(product -> entityManager.remove(product));
+        findById(id).ifPresent(product -> entityManager.remove(product));
     }
 
     public List<Product> findAllActive() {

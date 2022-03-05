@@ -67,8 +67,7 @@ public class ResolutionRepositoryImpl implements IRepository<Resolution, Long> {
 
     @Override
     public void deleteById(Long id) {
-        Optional<Resolution> optional = findById(id);
-        optional.ifPresent(resolution -> entityManager.remove(resolution));
+        findById(id).ifPresent(resolution -> entityManager.remove(resolution));
     }
 
     @Override

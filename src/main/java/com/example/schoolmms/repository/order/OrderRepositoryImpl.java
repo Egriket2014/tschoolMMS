@@ -55,8 +55,7 @@ public class OrderRepositoryImpl implements IRepository<Order, Long> {
 
     @Override
     public void deleteById(Long id) {
-        Optional<Order> optional = findById(id);
-        optional.ifPresent(order -> entityManager.remove(order));
+        findById(id).ifPresent(order -> entityManager.remove(order));
     }
 
     @Override

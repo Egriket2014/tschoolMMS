@@ -1,17 +1,11 @@
 package com.example.schoolmms.dto.user;
 
-import lombok.AllArgsConstructor;
-import lombok.Builder;
 import lombok.Data;
-import lombok.NoArgsConstructor;
 
 import java.util.Date;
-import java.util.Set;
+import java.util.List;
 
 @Data
-@Builder
-@AllArgsConstructor
-@NoArgsConstructor
 public class UserDto {
 
     private Long id;
@@ -20,5 +14,5 @@ public class UserDto {
     private Date dateOfBirth;
     private String email;
     private String password;
-    private Set<RoleDto> roleDtoSet;
+    private List<RoleDto> roleList;
 }

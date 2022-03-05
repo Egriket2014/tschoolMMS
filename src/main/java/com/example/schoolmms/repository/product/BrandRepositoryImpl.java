@@ -67,8 +67,7 @@ public class BrandRepositoryImpl implements IRepository<Brand, Long> {
 
     @Override
     public void deleteById(Long id) {
-        Optional<Brand> optional = findById(id);
-        optional.ifPresent(brand -> entityManager.remove(brand));
+        findById(id).ifPresent(brand -> entityManager.remove(brand));
     }
 
     @Override

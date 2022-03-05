@@ -67,8 +67,7 @@ public class DiagonalRepositoryImpl implements IRepository<Diagonal, Long> {
 
     @Override
     public void deleteById(Long id) {
-        Optional<Diagonal> optional = findById(id);
-        optional.ifPresent(brand -> entityManager.remove(brand));
+        findById(id).ifPresent(brand -> entityManager.remove(brand));
     }
 
     @Override

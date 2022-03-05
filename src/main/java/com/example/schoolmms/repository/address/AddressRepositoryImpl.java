@@ -55,8 +55,7 @@ public class AddressRepositoryImpl implements IRepository<Address, Long> {
 
     @Override
     public void deleteById(Long id) {
-        Optional<Address> optional = findById(id);
-        optional.ifPresent(address -> entityManager.remove(address));
+        findById(id).ifPresent(address -> entityManager.remove(address));
     }
 
     @Override

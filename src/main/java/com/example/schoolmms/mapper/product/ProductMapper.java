@@ -2,10 +2,9 @@ package com.example.schoolmms.mapper.product;
 
 import com.example.schoolmms.dto.product.ProductDto;
 import com.example.schoolmms.entity.Product;
+import com.example.schoolmms.mapper.IMapper;
 import org.mapstruct.Mapper;
 import org.mapstruct.factory.Mappers;
-
-import java.util.List;
 
 @Mapper(componentModel = "spring", uses = {
         BrandMapper.class,
@@ -15,15 +14,7 @@ import java.util.List;
         MatrixMapper.class,
         ResolutionMapper.class
 })
-public interface ProductMapper {
+public interface ProductMapper extends IMapper<ProductDto, Product> {
 
     ProductMapper PRODUCT_MAPPER_INSTANCE = Mappers.getMapper(ProductMapper.class);
-
-    ProductDto toDto(Product product);
-
-    List<ProductDto> toDtoList(List<Product> productList);
-
-    Product toEntity(ProductDto productDto);
-
-    List<Product> toEntityList(List<ProductDto> productDtoList);
 }

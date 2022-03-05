@@ -67,8 +67,7 @@ public class FrequencyRepositoryImpl implements IRepository<Frequency, Long> {
 
     @Override
     public void deleteById(Long id) {
-        Optional<Frequency> optional = findById(id);
-        optional.ifPresent(frequency -> entityManager.remove(frequency));
+        findById(id).ifPresent(frequency -> entityManager.remove(frequency));
     }
 
     @Override

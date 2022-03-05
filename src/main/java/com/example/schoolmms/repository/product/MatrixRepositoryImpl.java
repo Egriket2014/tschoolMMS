@@ -67,8 +67,7 @@ public class MatrixRepositoryImpl implements IRepository<Matrix, Long> {
 
     @Override
     public void deleteById(Long id) {
-        Optional<Matrix> optional = findById(id);
-        optional.ifPresent(matrix -> entityManager.remove(matrix));
+        findById(id).ifPresent(matrix -> entityManager.remove(matrix));
     }
 
     @Override

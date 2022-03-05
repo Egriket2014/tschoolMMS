@@ -55,8 +55,7 @@ public class UserRepositoryImpl implements IRepository<User, Long> {
 
     @Override
     public void deleteById(Long id) {
-        Optional<User> optional = findById(id);
-        optional.ifPresent(user -> entityManager.remove(user));
+        findById(id).ifPresent(user -> entityManager.remove(user));
     }
 
     public Optional<User> findByEmail(String email) {

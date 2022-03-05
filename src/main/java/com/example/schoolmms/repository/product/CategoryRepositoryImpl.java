@@ -67,8 +67,7 @@ public class CategoryRepositoryImpl implements IRepository<Category, Long> {
 
     @Override
     public void deleteById(Long id) {
-        Optional<Category> optional = findById(id);
-        optional.ifPresent(category -> entityManager.remove(category));
+        findById(id).ifPresent(category -> entityManager.remove(category));
     }
 
     @Override

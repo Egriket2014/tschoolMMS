@@ -67,8 +67,7 @@ public class RoleRepositoryImpl implements IRepository<Role, Long> {
 
     @Override
     public void deleteById(Long id) {
-        Optional<Role> optional = findById(id);
-        optional.ifPresent(role -> entityManager.remove(role));
+        findById(id).ifPresent(role -> entityManager.remove(role));
     }
 
     @Override

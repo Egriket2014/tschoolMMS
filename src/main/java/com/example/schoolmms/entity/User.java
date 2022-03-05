@@ -8,7 +8,6 @@ import lombok.NoArgsConstructor;
 import javax.persistence.*;
 import java.util.Date;
 import java.util.List;
-import java.util.Set;
 
 @Entity
 @Table(name = "users")
@@ -54,5 +53,5 @@ public class User {
                     @JoinColumn(name = "role_id", referencedColumnName = "id")
             }
     )
-    private Set<Role> roleSet;
+    private List<Role> roleList;
 }
