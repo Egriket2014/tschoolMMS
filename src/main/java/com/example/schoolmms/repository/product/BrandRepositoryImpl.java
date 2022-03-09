@@ -18,10 +18,10 @@ public class BrandRepositoryImpl implements IRepository<Brand, Long> {
 
     @PersistenceContext
     private EntityManager entityManager;
-    private final CriteriaBuilder criteriaBuilder = entityManager.getCriteriaBuilder();
 
     @Override
     public long count() {
+        CriteriaBuilder criteriaBuilder = entityManager.getCriteriaBuilder();
         CriteriaQuery<Long> criteriaQuery = criteriaBuilder.createQuery(Long.class);
 
         criteriaQuery
@@ -33,6 +33,7 @@ public class BrandRepositoryImpl implements IRepository<Brand, Long> {
 
     @Override
     public List<Brand> findAll() {
+        CriteriaBuilder criteriaBuilder = entityManager.getCriteriaBuilder();
         CriteriaQuery<Brand> criteriaQuery = criteriaBuilder.createQuery(Brand.class);
         Root<Brand> brandRoot = criteriaQuery.from(Brand.class);
 
@@ -49,6 +50,7 @@ public class BrandRepositoryImpl implements IRepository<Brand, Long> {
     }
 
     public Optional<Brand> findByName(String brandName) {
+        CriteriaBuilder criteriaBuilder = entityManager.getCriteriaBuilder();
         CriteriaQuery<Brand> criteriaQuery = criteriaBuilder.createQuery(Brand.class);
         Root<Brand> brandRoot = criteriaQuery.from(Brand.class);
 

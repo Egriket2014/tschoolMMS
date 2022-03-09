@@ -18,10 +18,10 @@ public class UserRepositoryImpl implements IRepository<User, Long> {
 
     @PersistenceContext
     private EntityManager entityManager;
-    private final CriteriaBuilder criteriaBuilder = entityManager.getCriteriaBuilder();
 
     @Override
     public long count() {
+        CriteriaBuilder criteriaBuilder = entityManager.getCriteriaBuilder();
         CriteriaQuery<Long> criteriaQuery = criteriaBuilder.createQuery(Long.class);
 
         criteriaQuery
@@ -33,6 +33,7 @@ public class UserRepositoryImpl implements IRepository<User, Long> {
 
     @Override
     public List<User> findAll() {
+        CriteriaBuilder criteriaBuilder = entityManager.getCriteriaBuilder();
         CriteriaQuery<User> criteriaQuery = criteriaBuilder.createQuery(User.class);
         Root<User> userRoot = criteriaQuery.from(User.class);
 
@@ -59,6 +60,7 @@ public class UserRepositoryImpl implements IRepository<User, Long> {
     }
 
     public Optional<User> findByEmail(String email) {
+        CriteriaBuilder criteriaBuilder = entityManager.getCriteriaBuilder();
         CriteriaQuery<User> criteriaQuery = criteriaBuilder.createQuery(User.class);
         Root<User> userRoot = criteriaQuery.from(User.class);
 

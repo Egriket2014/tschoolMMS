@@ -18,10 +18,10 @@ public class DiagonalRepositoryImpl implements IRepository<Diagonal, Long> {
 
     @PersistenceContext
     private EntityManager entityManager;
-    private final CriteriaBuilder criteriaBuilder = entityManager.getCriteriaBuilder();
 
     @Override
     public long count() {
+        CriteriaBuilder criteriaBuilder = entityManager.getCriteriaBuilder();
         CriteriaQuery<Long> criteriaQuery = criteriaBuilder.createQuery(Long.class);
 
         criteriaQuery
@@ -33,6 +33,7 @@ public class DiagonalRepositoryImpl implements IRepository<Diagonal, Long> {
 
     @Override
     public List<Diagonal> findAll() {
+        CriteriaBuilder criteriaBuilder = entityManager.getCriteriaBuilder();
         CriteriaQuery<Diagonal> criteriaQuery = criteriaBuilder.createQuery(Diagonal.class);
         Root<Diagonal> diagonalRoot = criteriaQuery.from(Diagonal.class);
 
@@ -49,6 +50,7 @@ public class DiagonalRepositoryImpl implements IRepository<Diagonal, Long> {
     }
 
     public Optional<Diagonal> findByName(String diagonal) {
+        CriteriaBuilder criteriaBuilder = entityManager.getCriteriaBuilder();
         CriteriaQuery<Diagonal> criteriaQuery = criteriaBuilder.createQuery(Diagonal.class);
         Root<Diagonal> diagonalRoot = criteriaQuery.from(Diagonal.class);
 

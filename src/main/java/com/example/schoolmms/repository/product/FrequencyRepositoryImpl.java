@@ -18,10 +18,10 @@ public class FrequencyRepositoryImpl implements IRepository<Frequency, Long> {
 
     @PersistenceContext
     private EntityManager entityManager;
-    private final CriteriaBuilder criteriaBuilder = entityManager.getCriteriaBuilder();
 
     @Override
     public long count() {
+        CriteriaBuilder criteriaBuilder = entityManager.getCriteriaBuilder();
         CriteriaQuery<Long> criteriaQuery = criteriaBuilder.createQuery(Long.class);
 
         criteriaQuery
@@ -33,6 +33,7 @@ public class FrequencyRepositoryImpl implements IRepository<Frequency, Long> {
 
     @Override
     public List<Frequency> findAll() {
+        CriteriaBuilder criteriaBuilder = entityManager.getCriteriaBuilder();
         CriteriaQuery<Frequency> criteriaQuery = criteriaBuilder.createQuery(Frequency.class);
         Root<Frequency> frequencyRoot = criteriaQuery.from(Frequency.class);
 
@@ -49,6 +50,7 @@ public class FrequencyRepositoryImpl implements IRepository<Frequency, Long> {
     }
 
     public Optional<Frequency> findByName(String frequency) {
+        CriteriaBuilder criteriaBuilder = entityManager.getCriteriaBuilder();
         CriteriaQuery<Frequency> criteriaQuery = criteriaBuilder.createQuery(Frequency.class);
         Root<Frequency> frequencyRoot = criteriaQuery.from(Frequency.class);
 

@@ -18,10 +18,10 @@ public class AddressRepositoryImpl implements IRepository<Address, Long> {
 
     @PersistenceContext
     private EntityManager entityManager;
-    private final CriteriaBuilder criteriaBuilder = entityManager.getCriteriaBuilder();
 
     @Override
     public long count() {
+        CriteriaBuilder criteriaBuilder = entityManager.getCriteriaBuilder();
         CriteriaQuery<Long> criteriaQuery = criteriaBuilder.createQuery(Long.class);
 
         criteriaQuery
@@ -33,6 +33,7 @@ public class AddressRepositoryImpl implements IRepository<Address, Long> {
 
     @Override
     public List<Address> findAll() {
+        CriteriaBuilder criteriaBuilder = entityManager.getCriteriaBuilder();
         CriteriaQuery<Address> criteriaQuery = criteriaBuilder.createQuery(Address.class);
         Root<Address> addressRoot = criteriaQuery.from(Address.class);
 

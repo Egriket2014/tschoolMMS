@@ -18,10 +18,10 @@ public class MatrixRepositoryImpl implements IRepository<Matrix, Long> {
 
     @PersistenceContext
     private EntityManager entityManager;
-    private final CriteriaBuilder criteriaBuilder = entityManager.getCriteriaBuilder();
 
     @Override
     public long count() {
+        CriteriaBuilder criteriaBuilder = entityManager.getCriteriaBuilder();
         CriteriaQuery<Long> criteriaQuery = criteriaBuilder.createQuery(Long.class);
 
         criteriaQuery
@@ -33,6 +33,7 @@ public class MatrixRepositoryImpl implements IRepository<Matrix, Long> {
 
     @Override
     public List<Matrix> findAll() {
+        CriteriaBuilder criteriaBuilder = entityManager.getCriteriaBuilder();
         CriteriaQuery<Matrix> criteriaQuery = criteriaBuilder.createQuery(Matrix.class);
         Root<Matrix> matrixRoot = criteriaQuery.from(Matrix.class);
 
@@ -49,6 +50,7 @@ public class MatrixRepositoryImpl implements IRepository<Matrix, Long> {
     }
 
     public Optional<Matrix> findByName(String matrixName) {
+        CriteriaBuilder criteriaBuilder = entityManager.getCriteriaBuilder();
         CriteriaQuery<Matrix> criteriaQuery = criteriaBuilder.createQuery(Matrix.class);
         Root<Matrix> matrixRoot = criteriaQuery.from(Matrix.class);
 

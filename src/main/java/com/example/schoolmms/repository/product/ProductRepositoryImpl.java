@@ -21,10 +21,10 @@ public class ProductRepositoryImpl implements IRepository<Product, Long> {
 
     @PersistenceContext
     private EntityManager entityManager;
-    private final CriteriaBuilder criteriaBuilder = entityManager.getCriteriaBuilder();
 
     @Override
     public long count() {
+        CriteriaBuilder criteriaBuilder = entityManager.getCriteriaBuilder();
         CriteriaQuery<Long> criteriaQuery = criteriaBuilder.createQuery(Long.class);
 
         criteriaQuery
@@ -36,6 +36,7 @@ public class ProductRepositoryImpl implements IRepository<Product, Long> {
 
     @Override
     public List<Product> findAll() {
+        CriteriaBuilder criteriaBuilder = entityManager.getCriteriaBuilder();
         CriteriaQuery<Product> criteriaQuery = criteriaBuilder.createQuery(Product.class);
         Root<Product> productRoot = criteriaQuery.from(Product.class);
 
@@ -52,6 +53,7 @@ public class ProductRepositoryImpl implements IRepository<Product, Long> {
     }
 
     public Optional<Product> findByName(String name) {
+        CriteriaBuilder criteriaBuilder = entityManager.getCriteriaBuilder();
         CriteriaQuery<Product> criteriaQuery = criteriaBuilder.createQuery(Product.class);
         Root<Product> productRoot = criteriaQuery.from(Product.class);
 
@@ -74,6 +76,7 @@ public class ProductRepositoryImpl implements IRepository<Product, Long> {
     }
 
     public List<Product> findAllActive() {
+        CriteriaBuilder criteriaBuilder = entityManager.getCriteriaBuilder();
         CriteriaQuery<Product> criteriaQuery = criteriaBuilder.createQuery(Product.class);
         Root<Product> productRoot = criteriaQuery.from(Product.class);
 
@@ -86,13 +89,14 @@ public class ProductRepositoryImpl implements IRepository<Product, Long> {
     }
 
     public List<Product> findByParam(List<SearchCriteria> params) {
+        CriteriaBuilder criteriaBuilder = entityManager.getCriteriaBuilder();
         CriteriaQuery<Product> criteriaQuery = criteriaBuilder.createQuery(Product.class);
         Root<Product> productRoot = criteriaQuery.from(Product.class);
 
         Predicate predicate = criteriaBuilder.conjunction();
         ProductSearchQueryCriteriaConsumer productConsumer =
                 new ProductSearchQueryCriteriaConsumer(predicate, criteriaBuilder, productRoot);
-        params.stream().forEach(productConsumer);
+        params.forEach(productConsumer);
         predicate = productConsumer.getPredicate();
 
         criteriaQuery

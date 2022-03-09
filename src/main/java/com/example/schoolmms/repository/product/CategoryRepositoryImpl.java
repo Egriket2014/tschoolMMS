@@ -18,10 +18,10 @@ public class CategoryRepositoryImpl implements IRepository<Category, Long> {
 
     @PersistenceContext
     private EntityManager entityManager;
-    private final CriteriaBuilder criteriaBuilder = entityManager.getCriteriaBuilder();
 
     @Override
     public long count() {
+        CriteriaBuilder criteriaBuilder = entityManager.getCriteriaBuilder();
         CriteriaQuery<Long> criteriaQuery = criteriaBuilder.createQuery(Long.class);
 
         criteriaQuery
@@ -33,6 +33,7 @@ public class CategoryRepositoryImpl implements IRepository<Category, Long> {
 
     @Override
     public List<Category> findAll() {
+        CriteriaBuilder criteriaBuilder = entityManager.getCriteriaBuilder();
         CriteriaQuery<Category> criteriaQuery = criteriaBuilder.createQuery(Category.class);
         Root<Category> categoryRoot = criteriaQuery.from(Category.class);
 
@@ -49,6 +50,7 @@ public class CategoryRepositoryImpl implements IRepository<Category, Long> {
     }
 
     public Optional<Category> findByName(String categoryName) {
+        CriteriaBuilder criteriaBuilder = entityManager.getCriteriaBuilder();
         CriteriaQuery<Category> criteriaQuery = criteriaBuilder.createQuery(Category.class);
         Root<Category> categoryRoot = criteriaQuery.from(Category.class);
 

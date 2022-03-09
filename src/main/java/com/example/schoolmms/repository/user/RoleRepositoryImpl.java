@@ -18,9 +18,9 @@ public class RoleRepositoryImpl implements IRepository<Role, Long> {
 
     @PersistenceContext
     private EntityManager entityManager;
-    private final CriteriaBuilder criteriaBuilder = entityManager.getCriteriaBuilder();
 
     public Optional<Role> findByName(String name) {
+        CriteriaBuilder criteriaBuilder = entityManager.getCriteriaBuilder();
         CriteriaQuery<Role> criteriaQuery = criteriaBuilder.createQuery(Role.class);
         Root<Role> roleRoot = criteriaQuery.from(Role.class);
 
@@ -34,6 +34,7 @@ public class RoleRepositoryImpl implements IRepository<Role, Long> {
 
     @Override
     public long count() {
+        CriteriaBuilder criteriaBuilder = entityManager.getCriteriaBuilder();
         CriteriaQuery<Long> criteriaQuery = criteriaBuilder.createQuery(Long.class);
 
         criteriaQuery
@@ -45,6 +46,7 @@ public class RoleRepositoryImpl implements IRepository<Role, Long> {
 
     @Override
     public List<Role> findAll() {
+        CriteriaBuilder criteriaBuilder = entityManager.getCriteriaBuilder();
         CriteriaQuery<Role> criteriaQuery = criteriaBuilder.createQuery(Role.class);
         Root<Role> roleRoot = criteriaQuery.from(Role.class);
 
