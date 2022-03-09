@@ -4,7 +4,10 @@ import com.example.schoolmms.entity.enums.DeliveryMethod;
 import com.example.schoolmms.entity.enums.OrderStatus;
 import com.example.schoolmms.entity.enums.PaymentMethod;
 import com.example.schoolmms.entity.enums.PaymentStatus;
+import lombok.AllArgsConstructor;
+import lombok.Builder;
 import lombok.Data;
+import lombok.NoArgsConstructor;
 
 import javax.persistence.*;
 import java.util.List;
@@ -12,6 +15,9 @@ import java.util.List;
 @Entity
 @Table(name = "orders")
 @Data
+@Builder
+@NoArgsConstructor
+@AllArgsConstructor
 public class Order {
 
     @Id
@@ -20,17 +26,19 @@ public class Order {
     private Long id;
 
     @ManyToOne(fetch = FetchType.EAGER, optional = false)
-    @JoinColumn(name = "client_id")
-    private Client client;
+    @JoinColumn(name = "user_id")
+    private User user;
 
     @OneToOne(cascade = CascadeType.ALL, fetch = FetchType.EAGER)
     @JoinColumn(name = "address_id")
     private Address address;
 
     @Column(name = "payment_method")
+    @Enumerated(EnumType.STRING)
     private PaymentMethod paymentMethod;
 
     @Column(name = "delivery_method")
+    @Enumerated(EnumType.STRING)
     private DeliveryMethod deliveryMethod;
 
     @ManyToMany(cascade = CascadeType.ALL, fetch = FetchType.EAGER)
@@ -40,8 +48,10 @@ public class Order {
     private List<Product> products;
 
     @Column(name = "payment_status")
+    @Enumerated(EnumType.STRING)
     private PaymentStatus paymentStatus;
 
     @Column(name = "order_status")
+    @Enumerated(EnumType.STRING)
     private OrderStatus orderStatus;
 }

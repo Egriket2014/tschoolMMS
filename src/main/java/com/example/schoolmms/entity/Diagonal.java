@@ -16,7 +16,7 @@ public class Diagonal {
     private Long id;
 
     @Column(name = "diagonal_name")
-    private Integer resolution;
+    private Integer diagonal;
 
     @OneToMany(mappedBy = "diagonal", cascade = CascadeType.ALL)
     private List<Product> productList;
