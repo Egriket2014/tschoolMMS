@@ -37,6 +37,11 @@ public class RoleService {
                 .orElse(null);
     }
 
+    public Role getEntityByName(String name) {
+        return roleRepository.findByName(name)
+                .orElse(null);
+    }
+
     @Transactional
     public void addRole(RoleDto roleDto) {
         Role role = new Role();

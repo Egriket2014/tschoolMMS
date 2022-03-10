@@ -1,15 +1,23 @@
 package com.example.schoolmms.service.user;
 
 import com.example.schoolmms.dto.user.UserDto;
+import com.example.schoolmms.dto.user.UserRegistrationDto;
+import com.example.schoolmms.entity.Role;
 import com.example.schoolmms.entity.User;
 import com.example.schoolmms.mapper.user.RoleMapper;
 import com.example.schoolmms.mapper.user.UserMapper;
 import com.example.schoolmms.repository.user.UserRepositoryImpl;
 import lombok.RequiredArgsConstructor;
+import org.springframework.security.crypto.password.PasswordEncoder;
 import org.springframework.stereotype.Service;
 import org.springframework.transaction.annotation.Transactional;
+import org.springframework.ui.Model;
+import org.springframework.validation.BindingResult;
 
+import java.text.ParseException;
+import java.text.SimpleDateFormat;
 import java.util.ArrayList;
+import java.util.Date;
 import java.util.List;
 
 @Service
@@ -20,6 +28,9 @@ public class UserService {
     private final UserMapper userMapper;
 
     private final RoleMapper roleMapper;
+    private final RoleService roleService;
+
+    private final PasswordEncoder bCryptPasswordEncoder;
 
     public long getNumberOfEntity() {
         return userRepository.count();
@@ -35,20 +46,45 @@ public class UserService {
                 .orElse(null);
     }
 
-    @Transactional
-    public void addUser(UserDto userDto) {
-        User user = User.builder()
-                .name(userDto.getName())
-                .surname(userDto.getSurname())
-                .dateOfBirth(userDto.getDateOfBirth())
-                .email(userDto.getEmail())
-                .password(userDto.getPassword())
-                .addressList(new ArrayList<>())
-                .orderList(new ArrayList<>())
-                .roleList(roleMapper.toEntityList(userDto.getRoleList()))
-                .build();
+    private Date stringToDate(String s) throws ParseException {
+        SimpleDateFormat formatter = new SimpleDateFormat("yyyy-MM-dd");
+        return formatter.parse(s);
+    }
 
-        userRepository.save(user);
+
+    @Transactional
+    public void registerUser(UserRegistrationDto userDto) {
+        try {
+            List<Role> roles = new ArrayList<>();
+            roles.add(roleService.getEntityByName("ROLE_USER"));
+
+            User user = User.builder()
+                    .name(userDto.getName())
+                    .surname(userDto.getSurname())
+                    .dateOfBirth(stringToDate(userDto.getDateOfBirth()))
+                    .email(userDto.getEmail())
+                    .password(bCryptPasswordEncoder.encode(userDto.getPassword()))
+                    .roleList(roles)
+                    .build();
+
+            userRepository.save(user);
+        } catch (Exception e) {
+            System.out.println("User registration error"); // Maybe add logging in future
+        }
+    }
+
+    @Transactional
+    public String registerNewUserController(UserRegistrationDto userRegistrationDto, BindingResult bindingResult, Model model) {
+        if (bindingResult.hasErrors()) {
+            return "registration";
+        }
+        if (getByEmail(userRegistrationDto.getEmail()) != null) {
+            model.addAttribute("userError", "User with this email is already registered");
+            return "registration";
+        }
+
+        registerUser(userRegistrationDto);
+        return "redirect:/";
     }
 
     @Transactional
