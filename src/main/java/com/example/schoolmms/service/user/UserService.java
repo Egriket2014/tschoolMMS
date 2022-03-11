@@ -8,6 +8,8 @@ import com.example.schoolmms.mapper.user.RoleMapper;
 import com.example.schoolmms.mapper.user.UserMapper;
 import com.example.schoolmms.repository.user.UserRepositoryImpl;
 import lombok.RequiredArgsConstructor;
+import org.springframework.security.core.Authentication;
+import org.springframework.security.core.context.SecurityContextHolder;
 import org.springframework.security.crypto.password.PasswordEncoder;
 import org.springframework.stereotype.Service;
 import org.springframework.transaction.annotation.Transactional;
@@ -51,7 +53,6 @@ public class UserService {
         return formatter.parse(s);
     }
 
-
     @Transactional
     public void registerUser(UserRegistrationDto userDto) {
         try {
@@ -87,11 +88,17 @@ public class UserService {
         return "redirect:/";
     }
 
+    public void getUserPageController(Model model) {
+        Authentication authentication = SecurityContextHolder.getContext().getAuthentication();
+        String currentUser = authentication.getName();
+        UserDto userDto = getByEmail(currentUser);
+        model.addAttribute("userDto", userDto);
+    }
+
     @Transactional
     public void updateUser(Long id) {
         userRepository.findById(id).ifPresent(userRepository::update);
     }
-
 
     public UserDto getByEmail(String email) {
         return userMapper.toDto(userRepository.findByEmail(email).orElse(null));

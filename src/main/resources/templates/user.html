@@ -1,0 +1,53 @@
+<!DOCTYPE html>
+<html lang="en" xmlns:th="http://www.thymeleaf.org">
+<head>
+    <meta charset="UTF-8">
+    <title>Log in</title>
+    <link rel="stylesheet" href="https://stackpath.bootstrapcdn.com/bootstrap/4.5.0/css/bootstrap.min.css">
+    <link rel="stylesheet" href="https://maxcdn.bootstrapcdn.com/font-awesome/4.7.0/css/font-awesome.min.css">
+</head>
+<body>
+<div class="panel">
+    <div class="panel-body">
+        <ul class="nav nav-tabs">
+            <li class="nav-item active" style="margin: 5px">
+                <a class="nav-link active btn btn-primary" href="#">About user</a>
+            </li>
+            <li class="nav-item" style="margin: 5px">
+                <a class="nav-link btn btn-primary" href="/user/addresses">My addresses</a>
+            </li>
+            <li class="nav-item" style="margin: 5px">
+                <a class="nav-link btn btn-primary" href="/user/orders">My orders</a>
+            </li>
+        </ul>
+    </div>
+</div>
+<div class="row" style="margin-top: 5px" id="profile">
+    <div class="col-md-9 col-lg-9">
+        <table class="table">
+            <tbody>
+            <tr>
+                <td>First name:</td>
+                <td th:text="${userDto.name}"></td>
+            </tr>
+            <tr>
+                <td>Last name:</td>
+                <td th:text="${userDto.surname}"></td>
+            </tr>
+            <tr>
+                <td>Date of birth:</td>
+                <td th:text="${userDto.dateOfBirth}"></td>
+            </tr>
+            <tr>
+                <td>Email:</td>
+                <td th:text="${userDto.email}"></td>
+            </tr>
+            </tbody>
+        </table>
+
+        <a href="/user/edit" class="btn btn-primary">Edit user info</a>
+        <a href="/user/editpass" class="btn btn-primary">Update password</a>
+    </div>
+</div>
+</body>
+</html>

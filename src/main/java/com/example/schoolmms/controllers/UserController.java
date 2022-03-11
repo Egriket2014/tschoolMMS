@@ -38,4 +38,11 @@ public class UserController {
                                   Model model) {
         return userService.registerNewUserController(userRegistrationDto, bindingResult, model);
     }
+
+    @GetMapping("/user")
+    public String getUserPage(Model model) {
+        userService.getUserPageController(model);
+        return "user";
+    }
+
 }
