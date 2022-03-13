@@ -1,6 +1,8 @@
 package com.example.schoolmms.controllers;
 
+import com.example.schoolmms.dto.user.UserDto;
 import com.example.schoolmms.dto.user.UserRegistrationDto;
+import com.example.schoolmms.dto.user.UserUpdateDto;
 import com.example.schoolmms.service.user.UserService;
 import lombok.RequiredArgsConstructor;
 import org.springframework.stereotype.Controller;
@@ -43,6 +45,19 @@ public class UserController {
     public String getUserPage(Model model) {
         userService.getUserPageController(model);
         return "user";
+    }
+
+    @GetMapping("/user/edit")
+    public String getEditUserPage(Model model) {
+        userService.getEditUserPageController(model);
+        return "user-edit";
+    }
+
+    @PostMapping("user/edit")
+    public String editUser(@ModelAttribute("userForm") @Valid UserUpdateDto userUpdateDto,
+                                 BindingResult bindingResult,
+                                 Model model) {
+        return userService.editUserController(userUpdateDto, bindingResult, model);
     }
 
 }
